@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel
+
+# Turborepo
+.turbo
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Personal notes — not for the repo
+docs/typescript/challenges.md
