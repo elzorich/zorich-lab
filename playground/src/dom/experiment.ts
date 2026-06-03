@@ -1,5 +1,6 @@
 
 import { ExtendedClock } from '../OOP/extended-clock';
+import { Clock } from '../OOP/clock';
 
 declare const stage: HTMLElement
 
@@ -22,5 +23,11 @@ stage.append(label, display, stopBtn, startBtn)
 const clock = new ExtendedClock({ template: 'h:m:s', element: display }, 1000)
 clock.start()
 
-stopBtn.addEventListener('click', () => clock.stop())
-startBtn.addEventListener('click', () => clock.start())
+stopBtn.addEventListener('click', () => {
+    clock.stop()
+    console.log('Clock instances after stop:', Clock.instanceCount)
+})
+startBtn.addEventListener('click', () => {
+    clock.start()
+    console.log('Clock instances after start:', Clock.instanceCount)
+})

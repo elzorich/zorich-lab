@@ -7,10 +7,12 @@ class Clock {
   protected template: string
   protected element?: HTMLElement
   protected timer: ReturnType<typeof setInterval> | undefined
+  static instanceCount = 0
 
   constructor({ template, element }: ClockOptions) {
     this.template = template
     this.element = element
+    Clock.instanceCount++
   }
 
   protected render(): void {
@@ -38,6 +40,7 @@ class Clock {
 
   public stop(): void {
     clearInterval(this.timer)
+    Clock.instanceCount--
   }
 }
 
