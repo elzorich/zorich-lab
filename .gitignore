@@ -30,4 +30,6 @@ build/
 
 # Personal notes — not for the repo
 docs/typescript/challenges.md
+docs/typescript/project-vision.md
+docs/specification.md
 CLAUDE.md

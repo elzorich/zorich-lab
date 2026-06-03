@@ -7,13 +7,12 @@
 | Framework | Next.js 15 (App Router) |
 | Language | TypeScript (strict) |
 | Styling | Tailwind CSS v4 |
-| Components | Radix UI primitives |
 | Monorepo | Turborepo + pnpm workspaces |
-| Content | MDX |
+| Playground | Vite + TypeScript |
 | Deployment | Vercel |
 | Domain | elenazorich.dev (zorich-lab.vercel.app for now) |
 
-No CMS, no database in Phase 1.
+Not in scope yet: Radix UI (add when a real accessibility need appears), MDX (add when content workflow is needed), design tokens package (add before first shared component).
 
 ## Repository structure
 
@@ -22,90 +21,85 @@ zorich-lab/
 ├── apps/
 │   └── web/                  # Main site — elenazorich.dev
 ├── packages/
-│   ├── ui/                   # Component library
-│   │   └── src/
-│   │       ├── components/
-│   │       │   └── Button/
-│   │       │       ├── Button.tsx
-│   │       │       └── index.ts
-│   │       └── index.ts
-│   ├── tokens/               # Design tokens
-│   │   └── src/
-│   │       ├── colors.ts
-│   │       ├── spacing.ts
-│   │       ├── typography.ts
-│   │       └── index.ts
+│   ├── ui/                   # Shared React components (not yet created)
+│   ├── tokens/               # Design tokens (not yet created)
 │   └── tsconfig/             # Shared TypeScript config
+├── playground/               # JS/TS exercises, course reinforcement
+│   └── src/
+│       ├── 01-types/         # Union types, type narrowing
+│       ├── OOP/              # Classes, inheritance, encapsulation
+│       └── dom/              # DOM experiments driven by playground exercises
 ├── docs/
 ├── turbo.json
 └── package.json
 ```
 
-## Phase 1 — Month 1
+## Learning path
 
-### Week 1: Foundation
-- Init monorepo (Turborepo + pnpm)
-- Next.js 15 app with TypeScript strict
-- Tailwind v4 setup
-- ESLint + Prettier
-- Deploy empty app to Vercel
-- Write ADR-001
+**Phase 1: JS/TS fundamentals** (current)
 
-### Week 2: Tokens + first component
-- Design tokens: colors, spacing, typography as CSS variables
-- Button component — variants (primary, secondary, ghost), sizes, states (hover, disabled, loading)
-- Teaches: props, TypeScript generics, compound variants with CVA
+The playground is the primary learning vehicle. Each course topic gets a folder and one or more exercises. The site (`apps/web`) grows alongside but is not the focus yet.
 
-### Week 3: Two more components
-- Input — controlled vs uncontrolled, ref forwarding, error state
-- Card — composition pattern, slot-based API
-- Teaches: forwardRef, children patterns, TypeScript interfaces
+Course topics in progress:
+- Types, unions, type narrowing
+- OOP: objects, classes, inheritance, static, private/protected
+- Advanced functions: decorators, call/apply/bind, arrow functions
+- DOM: navigation, modification
 
-### Week 4: Design system page + portfolio shell
-- `/ui` page showing all components with usage examples
-- Home page shell
-- Navigation component
-- Teaches: MDX, Next.js routing, layout patterns
+**Phase 2: React fundamentals**
 
-## Component roadmap (Month 1 scope)
+Only after JS/TS fundamentals are solid:
+- Rendering, props, state
+- Events, effects
+- Component composition
+- Fetch API with loading / error / empty / success states
 
-| Component | React concept |
-|---|---|
-| Button | Props, variants, CVA |
-| Input | forwardRef, controlled/uncontrolled |
-| Card | Composition, slots |
-| Navigation | State, active routes |
+**Phase 3: Components + portfolio**
 
-## Each component must have
+Only after React fundamentals are comfortable:
+- Design tokens (packages/tokens)
+- Button, Input, Card components (packages/ui)
+- `/ui` page in apps/web showing components
+- `/challenges` page with TypeScript examples from the playground
 
+## Current state
+
+### Done
+- Turborepo monorepo with pnpm workspaces
+- Next.js 15 + TypeScript strict + Tailwind v4
+- Shared tsconfig package
+- Vite playground running at localhost:5173
+- Playground: `01-types/union-types.ts` — discriminated union example
+- Playground: `OOP/clock.ts` — Clock class with TypeScript types
+- Playground: `OOP/extended-clock.ts` — ExtendedClock extending Clock, adds precision
+- Placeholder home page (apps/web)
+- ADR-001: Monorepo with Turborepo
+
+### In progress
+- Deploy to Vercel
+
+### Next
+- Continue JS/TS course topics in playground
+- Fetch API exercise with loading, error, empty, success states
+- First React component once fundamentals are solid
+
+## Playground conventions
+
+- One folder per course topic
+- Folder names match the course module (e.g. `OOP/`, `01-types/`)
+- Each file is a focused exercise, not a library
+- `dom/experiment.ts` drives what renders in the playground stage
+
+## Components (when the time comes)
+
+Each component must have:
 - TypeScript interface as source of truth
-- All visual states shown (default, hover, focus, disabled, error)
-- Accessibility: keyboard nav, aria labels
+- All visual states (default, hover, focus, disabled, error)
+- Keyboard accessibility
 - Usage example in `/ui` page
 
-## Pages (Month 1)
+## Pages (Phase 3)
 
 - `/` — Home (name, title, links)
 - `/ui` — Design system showcase
-- `/challenges` — TypeScript challenges and code snippets
-
-## TypeScript challenges page
-
-Each challenge is an MDX file with:
-- Problem statement
-- My solution with explanation
-- What it tests (type narrowing, generics, utility types, async, etc.)
-- Difficulty: easy / medium / hard
-
-Stored in `apps/web/content/challenges/`.
-
-### Month 1 challenge topics
-
-| Topic | Interview relevance |
-|---|---|
-| Union types + type narrowing | Very common |
-| Generics basics | Common |
-| Utility types (Partial, Pick, Omit, Record) | Very common |
-| async/await + error handling | Very common |
-| Array methods with types (map, filter, reduce) | Common |
-| Type guards | Common |
+- `/challenges` — TypeScript exercises from the playground
