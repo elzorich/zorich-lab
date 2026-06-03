@@ -1,0 +1,8 @@
+packages:
+  - apps/*
+  - packages/*
+  - playground
+ignoredBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver

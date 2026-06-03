@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zorich-lab / playground</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+      background: #0f0f0f;
+      color: #e5e5e5;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: 48px 1fr;
+    }
+
+    header {
+      border-bottom: 1px solid #222;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    header strong { color: #e5e5e5; }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Stage — DOM experiment area */
+    #stage {
+      border-right: 1px solid #222;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    #stage h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #444;
+      margin-bottom: 16px;
+    }
+
+    /* Console — log output */
+    #console-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #console-panel h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #444;
+      padding: 16px 24px 8px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    #log {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 24px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .log-entry { color: #e5e5e5; }
+    .log-entry.error { color: #f87171; }
+    .log-entry.warn { color: #fbbf24; }
+    .log-entry.info { color: #60a5fa; }
+    .log-entry::before { content: '> '; color: #444; }
+
+    #console-actions {
+      padding: 12px 24px;
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #e5e5e5;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    button:hover { background: #222; border-color: #555; }
+    button.primary { background: #18181b; border-color: #3f3f46; color: #a1a1aa; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>zorich-lab</strong>
+    <span>/</span>
+    <span>playground</span>
+    <span style="margin-left: auto;">edit <code>src/dom/experiment.ts</code> to start</span>
+  </header>
+
+  <main>
+    <section id="stage">
+      <h2>Stage — DOM experiments appear here</h2>
+      <div id="experiment-root"></div>
+    </section>
+
+    <section id="console-panel">
+      <h2>Console</h2>
+      <div id="log"></div>
+      <div id="console-actions">
+        <button onclick="clearLog()">Clear</button>
+        <button onclick="rerun()">Re-run</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    // Intercept console.log so output shows in the panel
+    const logEl = document.getElementById('log')
+
+    function addEntry(args, type = '') {
+      const entry = document.createElement('div')
+      entry.className = `log-entry ${type}`
+      entry.textContent = args.map(a =>
+        typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)
+      ).join(' ')
+      logEl.appendChild(entry)
+      logEl.scrollTop = logEl.scrollHeight
+    }
+
+    const _log = console.log.bind(console)
+    const _warn = console.warn.bind(console)
+    const _error = console.error.bind(console)
+
+    console.log = (...args) => { _log(...args); addEntry(args) }
+    console.warn = (...args) => { _warn(...args); addEntry(args, 'warn') }
+    console.error = (...args) => { _error(...args); addEntry(args, 'error') }
+    console.info = (...args) => { addEntry(args, 'info') }
+
+    window.clearLog = () => logEl.innerHTML = ''
+    window.rerun = () => location.reload()
+
+    window.stage = document.getElementById('experiment-root')
+  </script>
+
+  <!-- Your experiment file -->
+  <script type="module" src="/src/dom/experiment.ts"></script>
+</body>
+</html>
