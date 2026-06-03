@@ -1,4 +1,5 @@
-import { Clock } from '../OOP/clock'
+
+import { ExtendedClock } from '../OOP/extended-clock';
 
 declare const stage: HTMLElement
 
@@ -18,7 +19,7 @@ startBtn.style.marginLeft = '8px'
 
 stage.append(label, display, stopBtn, startBtn)
 
-const clock = new Clock({ template: 'h:m:s', element: display })
+const clock = new ExtendedClock({ template: 'h:m:s', element: display }, 1000)
 clock.start()
 
 stopBtn.addEventListener('click', () => clock.stop())

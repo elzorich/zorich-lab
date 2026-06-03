@@ -1,19 +1,19 @@
-interface ClockOptions {
+export interface ClockOptions {
   template: string
   element?: HTMLElement
 }
 
 class Clock {
-  private template: string
-  private element?: HTMLElement
-  private timer: ReturnType<typeof setInterval> | undefined
+  protected template: string
+  protected element?: HTMLElement
+  protected timer: ReturnType<typeof setInterval> | undefined
 
   constructor({ template, element }: ClockOptions) {
     this.template = template
     this.element = element
   }
 
-  private render(): void {
+  protected render(): void {
     const date = new Date()
     const hours = String(date.getHours()).padStart(2, '0')
     const mins = String(date.getMinutes()).padStart(2, '0')
