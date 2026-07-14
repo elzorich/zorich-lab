@@ -18,10 +18,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@zorich-lab/tsconfig": "workspace:*",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
+    "sass": "^1.101.0",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "@zorich-lab/tsconfig": "workspace:*"
+    "typescript": "^5"
   }
 }

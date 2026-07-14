@@ -1,4 +1,5 @@
 
+import '../advanced-functions/debounce-throttle'
 import { ExtendedClock } from '../OOP/extended-clock';
 import { Clock } from '../OOP/clock';
 
