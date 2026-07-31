@@ -28,3 +28,17 @@ function find(node: MenuItem, label: string): MenuItem | null {
   }
   return null;
 }
+
+function flatten(node: MenuItem): MenuItem[] {
+  const result: MenuItem[] = [node]
+  if (node.children) {
+    for (const child of node.children) {
+      result.push(...flatten(child))
+    }
+  }
+  return result
+}
+
+console.log(find(menu, 'Phones'))
+console.log(find(menu, 'Nothing'))
+console.log(flatten(menu).map(item => item.label))

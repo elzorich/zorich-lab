@@ -2,6 +2,7 @@
 
 import styles from './Apple.module.scss';
 import { useState } from 'react';
+import PrincipleCard from './PrincipleCard';
 
 const principles = [
   {
@@ -63,12 +64,13 @@ const AppleComponent = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionLabel}>Core Principles</h2>
         <div className={styles.grid3}>
-          {principles.map((p) => (
-            <div key={p.title} className={styles.glassCard}>
-              <div className={styles.cardAccent} style={{ background: p.accent }} />
-              <h3 className={styles.cardTitle} style={{ color: p.accent }}>{p.title}</h3>
-              <p className={styles.cardBody}>{p.description}</p>
-            </div>
+          {principles.map((principle) => (
+            <PrincipleCard
+              key={principle.title}
+              description={principle.description}
+              title={principle.title}
+              accent={principle.accent} 
+            />
           ))}
         </div>
       </section>
