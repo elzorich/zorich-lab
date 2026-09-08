@@ -110,4 +110,63 @@ async function loadAll() {
     })
 }
 
-loadAll();
+//loadAll();
+
+function promiseAll<T>(items: (T | Promise<T>)[]): Promise<T[]> {
+  return new Promise((resolve, reject) => {
+    if (items.length === 0) {
+      resolve([]);
+      return;
+    }
+
+    const results: T[] = new Array(items.length);
+    let completedCount = 0;
+
+    items.forEach((item, index) => {
+      Promise.resolve(item).then((value) => {
+        results[index] = value;
+        completedCount++;
+
+        if(completedCount === items.length) {
+          resolve(results);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      })
+
+    })
+  })
+}
+
+async function testPromiseAll() {
+  // 1. resolved example from the prompt — mix of promise, plain value, delayed promise
+  const p0 = Promise.resolve(3);
+  const p1 = 42;
+  const p2 = new Promise((resolve) => setTimeout(() => resolve("foo"), 100));
+
+  console.log(await promiseAll([p0, p1, p2])); // expect [3, 42, "foo"]
+
+  // 2. rejection example — should reject with the SAME reason, not wait for others
+  try {
+    await promiseAll([
+      Promise.resolve(30),
+      new Promise((_, reject) => setTimeout(() => reject("An error occurred!"), 100)),
+    ]);
+  } catch (err) {
+    console.log(err); // expect "An error occurred!"
+  }
+
+  // 3. empty array edge case
+  console.log(await promiseAll([])); // expect []
+
+  // 4. cross-check against the real thing — same input, should match
+  const input = [Promise.resolve(1), 2, Promise.resolve(3)];
+  console.log(await promiseAll(input), await Promise.all(input));
+}
+
+//testPromiseAll();
+
+
+
+
